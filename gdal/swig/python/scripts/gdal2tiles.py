@@ -2028,6 +2028,11 @@ class GDAL2Tiles(object):
             args['srs'] = self.out_srs.ExportToWkt()
         else:
             args['srs'] = ""
+            
+        if self.options.profile == 'raster':
+            r0 = (2**(self.nativezoom - self.tminz) * self.out_gt[1])
+            args['north'] = args['south'] + r0 * args['tile_size']
+            args['east'] = args['west'] + r0 * args['tile_size']
 
         s = """<?xml version="1.0" encoding="utf-8"?>
     <TileMap version="1.0.0" tilemapservice="http://tms.osgeo.org/1.0.0">
